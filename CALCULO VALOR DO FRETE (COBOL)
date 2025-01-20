@@ -1,8 +1,8 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. PROGRAMA10.
+       PROGRAM-ID. PROGRAMA11.
       *=================================
       *==  Autor: Pedro
-      *==  Objetivo: CALCULO DE FRETE
+      *==  Objetivo: CALCULO DE FRETE USANDO EVALUATE
       *==  Data: 27/09/2024
       *==  Observacoes:
       *==================================
@@ -30,15 +30,18 @@
            DISPLAY "DIGITE O ESTADO (SP,RJ,ES) : "
                ACCEPT WRK-ESTADO.
 
-           IF WRK-ESTADO EQUAL "SP"
-               COMPUTE WRK-FRETE = WRK-VALOR * 0,10
-           END-IF.
-           IF WRK-ESTADO EQUAL "RJ"
-               COMPUTE WRK-FRETE = WRK-VALOR * 0,15
-           END-IF.
-           IF WRK-ESTADO EQUAL "ES"
-               COMPUTE WRK-FRETE = WRK-VALOR * 0,20
-           END-IF.
+       0150-PROCESSA           SECTION.
+
+           EVALUATE WRK-ESTADO
+               WHEN "SP"
+                   COMPUTE WRK-FRETE = WRK-VALOR * 0,10
+               WHEN "RJ"
+                   COMPUTE WRK-FRETE = WRK-VALOR * 0,15
+               WHEN "ES"
+                   COMPUTE WRK-FRETE = WRK-VALOR * 0,20
+               WHEN OTHER
+                 DISPLAY "NAO ENTREGAMOS NESSE ESTADO"
+           END-EVALUATE.
 
            COMPUTE WRK-VALOR = WRK-VALOR + WRK-FRETE.
            MOVE WRK-FRETE TO WRK-FRETE-ED
@@ -49,13 +52,6 @@
            DISPLAY "VALOR DO FRETE : " WRK-FRETE-ED
            DISPLAY "VALOR TOTAL : " WRK-VALOR-ED.
 
-           IF WRK-ESTADO EQUAL "SP" OR WRK-ESTADO EQUAL "RJ" OR
-                       WRK-ESTADO EQUAL "ES"
-               DISPLAY "ESTADO VALIDO"
-           ELSE
-               DISPLAY "ESTADO INVALIDO"
-           END-IF.
-
        0300-FINALIZAR         SECTION.
            STOP RUN.
-       END PROGRAM PROGRAMA10.
+       END PROGRAM PROGRAMA11.

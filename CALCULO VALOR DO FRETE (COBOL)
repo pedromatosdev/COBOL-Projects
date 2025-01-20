@@ -1,0 +1,61 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PROGRAMA10.
+      *=================================
+      *==  Autor: Pedro
+      *==  Objetivo: CALCULO DE FRETE
+      *==  Data: 27/09/2024
+      *==  Observacoes:
+      *==================================
+       ENVIRONMENT             DIVISION.
+       CONFIGURATION           SECTION.
+       SPECIAL-NAMES.
+           DECIMAL-POINT IS COMMA.
+       DATA DIVISION.
+       WORKING-STORAGE         SECTION.
+      *================ VARIAVEIS DE APOIO =========
+       77  WRK-PRODUTO     PIC X(30)        VALUE SPACES.
+       77  WRK-VALOR       PIC 9(08)V99     VALUE ZEROS.
+       77  WRK-FRETE       PIC 9(08)V99     VALUE ZEROS.
+       77  WRK-ESTADO      PIC X(02)        VALUE SPACES.
+      *================ VARIAVEIS DE EDICAO =======
+       77  WRK-FRETE-ED        PIC ZZ.ZZZ.ZZ9,99.
+       77  WRK-VALOR-ED        PIC ZZ.ZZZ.ZZ9,99.
+
+       PROCEDURE DIVISION.
+       0100-RECEBE            SECTION.
+           DISPLAY "DIGITE O NOME DO PRODUTO : "
+               ACCEPT WRK-PRODUTO
+           DISPLAY "DIGITE O VALOR DO PRODUTO : "
+               ACCEPT WRK-VALOR
+           DISPLAY "DIGITE O ESTADO (SP,RJ,ES) : "
+               ACCEPT WRK-ESTADO.
+
+           IF WRK-ESTADO EQUAL "SP"
+               COMPUTE WRK-FRETE = WRK-VALOR * 0,10
+           END-IF.
+           IF WRK-ESTADO EQUAL "RJ"
+               COMPUTE WRK-FRETE = WRK-VALOR * 0,15
+           END-IF.
+           IF WRK-ESTADO EQUAL "ES"
+               COMPUTE WRK-FRETE = WRK-VALOR * 0,20
+           END-IF.
+
+           COMPUTE WRK-VALOR = WRK-VALOR + WRK-FRETE.
+           MOVE WRK-FRETE TO WRK-FRETE-ED
+           MOVE WRK-VALOR TO WRK-VALOR-ED.
+
+       0200-MOSTRA            SECTION.
+           DISPLAY "NOME DO PRODUTO : " WRK-PRODUTO
+           DISPLAY "VALOR DO FRETE : " WRK-FRETE-ED
+           DISPLAY "VALOR TOTAL : " WRK-VALOR-ED.
+
+           IF WRK-ESTADO EQUAL "SP" OR WRK-ESTADO EQUAL "RJ" OR
+                       WRK-ESTADO EQUAL "ES"
+               DISPLAY "ESTADO VALIDO"
+           ELSE
+               DISPLAY "ESTADO INVALIDO"
+           END-IF.
+
+       0300-FINALIZAR         SECTION.
+           STOP RUN.
+       END PROGRAM PROGRAMA10.
